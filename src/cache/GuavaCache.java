@@ -41,6 +41,32 @@ public class GuavaCache {
     }
 
     /**
+     * Get all entries in the cache as a String.
+     *
+     * @return the String containing all elements of the cache
+     * @throws ExecutionException thrown internally by Guava in case of errors manipulating cache
+     */
+    public String getAllEntries() throws ExecutionException {
+        return cache.asMap().toString();
+    }
+
+    /**
+     * Remove a specific entry from the cache.
+     *
+     * @param entryKey the key of the entry to be removed
+     */
+    public void removeEntry(String entryKey) {
+        cache.invalidate(entryKey);
+    }
+
+    /**
+     * Remove all entries from the cache.
+     */
+    public void removeAllEntries() {
+        cache.invalidateAll();
+    }
+
+    /**
      * Checks whether the specified key exists in the cache.
      *
      * @param cacheKey the String to be checked if is present in the cache.
@@ -82,11 +108,19 @@ public class GuavaCache {
             }
 
             System.out.println(guavaInstance.getEntry("Suvendu"));
+            System.out.println(guavaInstance.getEntry("teste"));
             if (guavaInstance.isPresent("Suvendu")) {
                 System.out.println("present");
             } else {
                 System.out.println("not present");
             }
+
+            System.out.println("print all: " + guavaInstance.getAllEntries());
+            // guavaInstance.removeEntry("Suvendu");
+            guavaInstance.removeAllEntries();
+            System.out.println("print all: " + guavaInstance.getAllEntries());
+            Thread.sleep(3000);
+            System.out.println("print all: " + guavaInstance.getAllEntries());
 
         } catch (ExecutionException e) {
             e.printStackTrace();
