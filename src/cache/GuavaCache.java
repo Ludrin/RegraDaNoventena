@@ -36,7 +36,6 @@ public class GuavaCache {
      * @throws ExecutionException thrown internally by Guava in case of errors manipulating cache
      */
     public String getEntry(String cacheEntry) throws ExecutionException {
-        System.out.println("cache size:" + cache.size());
         return cache.get(cacheEntry);
     }
 
@@ -78,8 +77,8 @@ public class GuavaCache {
 
     private GuavaCache() {
         cache = CacheBuilder.newBuilder()
-                .refreshAfterWrite(2, TimeUnit.SECONDS)
-                .expireAfterWrite(2, TimeUnit.SECONDS)
+                .refreshAfterWrite(90, TimeUnit.SECONDS)
+                .expireAfterWrite(90, TimeUnit.SECONDS)
                 .build(new CacheLoader<String, String>() {
 
                     @Override
@@ -88,45 +87,6 @@ public class GuavaCache {
                     }
 
                 });
-    }
-
-    public static void main(String[] args) {
-        GuavaCache guavaInstance = GuavaCache.getInstance();
-        try {
-            System.out.println(guavaInstance.getEntry("Suvendu"));
-            if (guavaInstance.isPresent("Suvendu")) {
-                System.out.println("present");
-            } else {
-                System.out.println("not present");
-            }
-
-            Thread.sleep(3000);
-            if (guavaInstance.isPresent("Suvendu")) {
-                System.out.println("present");
-            } else {
-                System.out.println("not present");
-            }
-
-            System.out.println(guavaInstance.getEntry("Suvendu"));
-            System.out.println(guavaInstance.getEntry("teste"));
-            if (guavaInstance.isPresent("Suvendu")) {
-                System.out.println("present");
-            } else {
-                System.out.println("not present");
-            }
-
-            System.out.println("print all: " + guavaInstance.getAllEntries());
-            // guavaInstance.removeEntry("Suvendu");
-            guavaInstance.removeAllEntries();
-            System.out.println("print all: " + guavaInstance.getAllEntries());
-            Thread.sleep(3000);
-            System.out.println("print all: " + guavaInstance.getAllEntries());
-
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
 }
