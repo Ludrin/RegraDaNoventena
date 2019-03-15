@@ -16,15 +16,14 @@ import com.google.common.cache.LoadingCache;
 public class GuavaCache {
 
     private LoadingCache<String, String> cache;
-    private static GuavaCache guavaCache = new GuavaCache();
 
     /**
      * Get an instance of the cache to save data in.
      *
      * @return an instance of the GuavaCache class
      */
-    public static GuavaCache getInstance() {
-        return guavaCache;
+    public static GuavaCache getInstance(long refreshCacheSeconds) {
+        return new GuavaCache(refreshCacheSeconds);
     }
 
     /**
@@ -75,10 +74,10 @@ public class GuavaCache {
         return cache.asMap().containsKey(cacheKey);
     }
 
-    private GuavaCache() {
+    private GuavaCache(long refreshCacheSeconds) {
         cache = CacheBuilder.newBuilder()
-                .refreshAfterWrite(90, TimeUnit.SECONDS)
-                .expireAfterWrite(90, TimeUnit.SECONDS)
+                .refreshAfterWrite(refreshCacheSeconds, TimeUnit.SECONDS)
+                .expireAfterWrite(refreshCacheSeconds, TimeUnit.SECONDS)
                 .build(new CacheLoader<String, String>() {
 
                     @Override

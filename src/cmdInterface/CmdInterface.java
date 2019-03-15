@@ -10,6 +10,8 @@ import java.util.concurrent.ExecutionException;
 import cache.GuavaCache;
 
 /**
+ * Simple CMD interface class to test GuavaCache
+ *
  * @author Ernani
  *
  */
@@ -17,7 +19,7 @@ public class CmdInterface {
 
     public static void main(String[] args) {
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
-        GuavaCache guavaInstance = GuavaCache.getInstance();
+        GuavaCache guavaInstance = GuavaCache.getInstance(90);
         Set<String> clientCompanies = new HashSet<>();
         byte option = -1;
 
@@ -70,7 +72,8 @@ public class CmdInterface {
             read.close();
 
         } catch (IOException e) {
-            // TODO: handle exception
+            System.out.println("Erro ao ler comandos do teclado: ");
+            e.printStackTrace();
         }
     }
 
